@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _events = [];
+  final _events = [];//宣告一個列表
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Scrollbar(
         child: RefreshIndicator(
           //下拉刷新
-          onRefresh: () async {
+          onRefresh: () async {//因為這邊要求回傳的是一個Future, 所以使用async/await
             await _refresh();
           },
 
@@ -54,26 +54,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       context: context,
                       builder: (_) {
                         return AlertDialog(
-                            title: Text("Are you sure?"),
-                            content: Text("Do you want to delete this item?"),
-                            actions: [
-                            FlatButton(
-                            onPressed: ()
-                        =>
-                            Navigator.of(context).pop(false)
-                        ,
-                        child: Text("Cancel")),
-                        FlatButton(
-                        onPressed: () =>
-                        Navigator.of(context).pop(true),
-                        child: Text("Delete", style: TextStyle(color: Colors.red),),
-                        )
-                        ],
+                          title: Text("Are you sure?"),
+                          content: Text("Do you want to delete this item?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child: Text("Cancel")),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: Text(
+                                "Delete",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            )
+                          ],
                         );
                       });
                   // return false;
                 },
-                onDismissed: (_) {
+                onDismissed: (_) {//不在意滑動方向, 所以使用(_)
                   //真的把項目移除
                   setState(() {
                     _events.removeWhere((e) => e.id == event.id);
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //       // print(res.body);
       //       final json = convert.jsonDecode(res.body);
       //       // print(json); //在flutter, Dart 裡面的表現形式：Mao<dynamic, dynamic>
-      //       // json.forEach((item) => print(item));
+      //       // json.forEach((item) => print(item));//因為裡面是列表的樣式, 所以透過json.forEach的方式來把資料列印出來
       //       _events.addAll(json.map((item) => GitEvent(item)));
       //       print(_events);
       //     }
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final json = convert.jsonDecode(res.body);
       setState(() {
         _events.clear(); //先把舊的清除, 再把新的加進來
-        _events.addAll(json.map((item) => GitEvent(item)));
+        _events.addAll(json.map((item2) => GitEvent(item2)));
       });
 
       // print(_events);
